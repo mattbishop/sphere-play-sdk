@@ -4,6 +4,8 @@ import sbt.Keys._
 import play.Project._
 import com.typesafe.sbteclipse.core.EclipsePlugin
 import sbtrelease.ReleasePlugin._
+import sbtrelease._
+import ReleaseStateTransformations._
 
 object PlaySDKBuild extends Build {
 
@@ -63,11 +65,29 @@ public final class Version {
   // Settings
   // ----------------------
 
+  import com.typesafe.sbt.pgp.PgpKeys
+  import com.typesafe.sbt.pgp.PgpKeys._
+  val publishToSonatype = (ref: ProjectRef) => ReleaseStep(
+    releaseTask(publishSigned in PgpKeys in ref)
+  )
+
   lazy val standardSettings =  Seq[Setting[_]](
     organization := "io.sphere",
     publishMavenStyle := true,
     publishArtifact in Test := false,
     version <<= version in ThisBuild,
+    ReleaseKeys.releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      runTest,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      publishToSonatype,
+      setNextVersion,
+      commitNextVersion,
+      pushChanges
+    ),
     licenses := Seq("Apache" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     homepage := Some(url("https://github.com/commercetools/sphere-play-sdk")),
     pomExtra := (
@@ -133,6 +153,7 @@ public final class Version {
         Some("releases"  at nexus + "service/local/staging/deploy/maven2")
     }
   )
+
   // ----------------------
   // Dependencies
   // ----------------------
