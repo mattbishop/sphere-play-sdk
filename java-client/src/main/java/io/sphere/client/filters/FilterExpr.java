@@ -76,6 +76,7 @@ public final class FilterExpr {
         /** The value of the attribute falls into given range. */
         public NumberAttribute.Ranges range(Double from, Double to) { return range(closedRange(from, to)); }
         /** The value of the attribute falls into given range. */
+        @SuppressWarnings("unchecked")
         public NumberAttribute.Ranges range(Range<Double> range) { return new NumberAttribute.Ranges(name, list(range)); }
 
         /** The value of the attribute falls into any of given ranges (OR). */
@@ -90,8 +91,8 @@ public final class FilterExpr {
                     '}';
         }
     }
-    
-    
+
+
     public static MoneyAttributeDSL moneyAttribute(String name) { return new MoneyAttributeDSL(name); }
     public static class MoneyAttributeDSL {
         private final String name;
@@ -111,6 +112,7 @@ public final class FilterExpr {
         /** The value of the attribute falls into given range. */
         public MoneyAttribute.Ranges range(BigDecimal from, BigDecimal to) { return range(closedRange(from, to)); }
         /** The value of the attribute falls into given range. */
+        @SuppressWarnings("unchecked")
         public MoneyAttribute.Ranges range(Range<BigDecimal> range) { return new MoneyAttribute.Ranges(name, list(range)); }
 
         /** The value of the attribute falls into any of given ranges (OR). */
@@ -126,7 +128,7 @@ public final class FilterExpr {
         }
     }
 
-    
+
     public static PriceDSL price = new PriceDSL();
     public static class PriceDSL {
         /** The price matches given value. */
@@ -143,6 +145,7 @@ public final class FilterExpr {
         /** The price falls into given range. */
         public Price.Ranges range(BigDecimal from, BigDecimal to) { return range(closedRange(from, to)); }
         /** The price falls into given range. */
+        @SuppressWarnings("unchecked")
         public Price.Ranges range(Range<BigDecimal> range) { return new Price.Ranges(list(range)); }
 
         /** The price falls into any of ranges (OR). */
@@ -171,6 +174,7 @@ public final class FilterExpr {
         /** The value of the attribute falls into given range. */
         public DateTimeAttribute.Ranges range(DateTime from, DateTime to) { return range(closedRange(from, to)); }
         /** The value of the attribute falls into given range. */
+        @SuppressWarnings("unchecked")
         public DateTimeAttribute.Ranges range(Range<DateTime> range) { return new DateTimeAttribute.Ranges(name, list(range)); }
 
         /** The value of the attribute falls into any of given ranges (OR). */
